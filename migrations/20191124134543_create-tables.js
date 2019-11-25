@@ -14,7 +14,12 @@ exports.up = function(knex) {
     })
     .createTable("task", tbl => {
       tbl.increments();
-      tbl.integer("project_id").references("project.id");
+      tbl
+        .integer("project_id")
+        .references("project.id")
+        .notNullable()
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       tbl.text("description").notNullable();
       tbl.text("notes");
       tbl
@@ -35,11 +40,15 @@ exports.up = function(knex) {
       tbl
         .integer("resource_id")
         .notNullable()
-        .references("resource.id");
+        .references("resource.id")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       tbl
         .integer("project_id")
         .notNullable()
-        .references("project.id");
+        .references("project.id")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     });
 };
 
